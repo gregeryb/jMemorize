@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -19,9 +19,7 @@
 package jmemorize.gui.swing.actions;
 
 import java.awt.event.ActionEvent;
-
 import javax.swing.JOptionPane;
-
 import jmemorize.core.Category;
 import jmemorize.core.Lesson;
 import jmemorize.core.Main;
@@ -34,78 +32,66 @@ import jmemorize.gui.swing.SelectionProvider.SelectionObserver;
 
 /**
  * Renames a category.
- * 
+ *
  * @author djemili
  */
-public class RenameCategoryAction extends AbstractAction2 
-    implements SelectionObserver, LearnSessionObserver
-{
-    private SelectionProvider m_selectionProvider;
+public class RenameCategoryAction extends AbstractAction2
+ implements SelectionObserver, LearnSessionObserver {
 
-    public RenameCategoryAction(SelectionProvider selectionProvider)
-    {
-        Main.getInstance().addLearnSessionObserver(this);
-        
-        m_selectionProvider = selectionProvider;
-        m_selectionProvider.addSelectionObserver(this);
-        
-        setValues();
-        updateEnablement();
-    }
-    
-    /* (non-Javadoc)
-     * @see java.awt.event.ActionListener
-     */
-    public void actionPerformed(ActionEvent e)
-    {
-        String name = JOptionPane.showInputDialog(
-            Main.getInstance().getFrame(),
-            Localization.get(LC.RENAME_INPUT));
+ private SelectionProvider m_selectionProvider;
 
-        if (name != null && name.trim().length() > 0)
-        {
-            m_selectionProvider.getCategory().setName(name.trim());
-        }
-    }
-    
-    /* (non-Javadoc)
-     * @see jmemorize.gui.swing.SelectionProvider.SelectionObserver
-     */
-    public void selectionChanged(SelectionProvider source)
-    {
-        updateEnablement();
-    }
-    
-    /* (non-Javadoc)
-     * @see jmemorize.core.learn.LearnSessionObserver
-     */
-    public void sessionEnded(LearnSession session)
-    {
-        updateEnablement();
-    }
+ public RenameCategoryAction(SelectionProvider selectionProvider) {
+  Main.getInstance().addLearnSessionObserver(this);
+  m_selectionProvider = selectionProvider;
+  m_selectionProvider.addSelectionObserver(this);
+  setValues();
+  updateEnablement();
+ }
 
-    /* (non-Javadoc)
-     * @see jmemorize.core.learn.LearnSessionObserver
-     */
-    public void sessionStarted(LearnSession session)
-    {
-        updateEnablement();
-    }
+ /*
+  * (non-Javadoc) @see java.awt.event.ActionListener
+  */
+ public void actionPerformed(ActionEvent e) {
+  String name = JOptionPane.showInputDialog(
+   Main.getInstance().getFrame(),
+   Localization.get(LC.RENAME_INPUT));
+  if (name != null && name.trim().length() > 0) {
+   m_selectionProvider.getCategory().setName(name.trim());
+  }
+ }
 
-    protected void updateEnablement()
-    {
-        boolean sessionRunning = Main.getInstance().isSessionRunning();
-        
-        Lesson lesson = Main.getInstance().getLesson();
-        Category rootCategory = lesson.getRootCategory();
-        Category category = m_selectionProvider.getCategory();
-        
-        setEnabled(!sessionRunning && lesson != null && category != rootCategory);
-    }
+ /*
+  * (non-Javadoc) @see jmemorize.gui.swing.SelectionProvider.SelectionObserver
+  */
+ public void selectionChanged(SelectionProvider source) {
+  updateEnablement();
+ }
 
-    private void setValues()
-    {
-        setName(Localization.get(LC.RENAME));
-        setIcon("/resource/icons/blank.gif"); //$NON-NLS-1$
-    }
+ /*
+  * (non-Javadoc) @see jmemorize.core.learn.LearnSessionObserver
+  */
+ public void sessionEnded(LearnSession session) {
+  updateEnablement();
+ }
+
+ /*
+  * (non-Javadoc) @see jmemorize.core.learn.LearnSessionObserver
+  */
+ public void sessionStarted(LearnSession session) {
+  updateEnablement();
+ }
+
+ protected void updateEnablement() {
+  boolean sessionRunning = Main.getInstance().isSessionRunning();
+  Lesson lesson = Main.getInstance().getLesson();
+  Category rootCategory = lesson.getRootCategory();
+  Category category = m_selectionProvider.getCategory();
+  setEnabled(!sessionRunning && lesson != null && category != rootCategory);
+ }
+
+ private void setValues() {
+  setName(Localization.get(LC.RENAME));
+  setIcon("/resource/icons/blank.gif"); //$NON-NLS-1$
+ }
+
 }

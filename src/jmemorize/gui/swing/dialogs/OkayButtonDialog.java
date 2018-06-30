@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -22,51 +22,43 @@ import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import jmemorize.gui.LC;
 import jmemorize.gui.Localization;
-
 import com.jgoodies.forms.factories.ButtonBarFactory;
 
 /**
  * A simple dialog that displays a main panel with a button bar below which
  * contains a single okay-button.
- * 
+ *
  * @author djemili
  */
-public class OkayButtonDialog extends JDialog
-{
-    public OkayButtonDialog(Frame father, String title, boolean modal, 
-        JComponent component)
-    {
-        super(father, title, modal);
-        
-        getContentPane().add(component, BorderLayout.CENTER);
-        getContentPane().add(buildButtonBar(), BorderLayout.SOUTH);
-        pack();
-    }
-    
-    private JPanel buildButtonBar()
-    {
-        JButton okayButton = new JButton(Localization.get(LC.OKAY));
-        okayButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
-                dispose();
-            }
-        });
-        
-        JPanel buttonPanel = ButtonBarFactory.buildOKBar(okayButton);
-        buttonPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
-        
-        getRootPane().setDefaultButton(okayButton);
-        
-        return buttonPanel;
-    }
+public class OkayButtonDialog extends JDialog {
+
+ public OkayButtonDialog(Frame father, String title, boolean modal,
+  JComponent component) {
+  super(father, title, modal);
+  getContentPane().add(component, BorderLayout.CENTER);
+  getContentPane().add(buildButtonBar(), BorderLayout.SOUTH);
+  pack();
+ }
+
+ private JPanel buildButtonBar() {
+  JButton okayButton = new JButton(Localization.get(LC.OKAY));
+  okayButton.addActionListener(new ActionListener() {
+   public void actionPerformed(ActionEvent e) {
+    dispose();
+   }
+
+  });
+  JPanel buttonPanel = ButtonBarFactory.buildOKBar(okayButton);
+  buttonPanel.setBorder(new EmptyBorder(3, 3, 3, 3));
+  getRootPane().setDefaultButton(okayButton);
+  return buttonPanel;
+ }
+
 }

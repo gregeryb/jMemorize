@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -20,24 +20,22 @@ package jmemorize.util;
 
 import java.util.Comparator;
 
-
 /**
  * @author djemili
  */
-public class ReverseOrder<T> implements Comparator<T>
-{
-    private Comparator<T> m_comparator;
-    
-    public ReverseOrder(Comparator<T> comp)
-    {
-        m_comparator = comp;
-    }
-    
-    /**
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
-    public int compare(T arg0, T arg1)
-    {
-        return -1 * m_comparator.compare(arg0, arg1);
-    }
+public class ReverseOrder<T> implements Comparator<T> {
+
+ private Comparator<T> m_comparator;
+
+ public ReverseOrder(Comparator<T> comp) {
+  m_comparator = comp;
+ }
+
+ /**
+  * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+  */
+ public int compare(T arg0, T arg1) {
+  return -1 * m_comparator.compare(arg0, arg1);
+ }
+
 }

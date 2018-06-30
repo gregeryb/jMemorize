@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2008 Riad Djemili and contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -20,46 +20,38 @@ package jmemorize.gui.swing.actions.file;
 
 import java.io.File;
 import java.io.IOException;
-
 import javax.swing.filechooser.FileFilter;
-
 import jmemorize.core.Lesson;
 import jmemorize.core.io.XmlBuilder;
 import jmemorize.gui.LC;
 import jmemorize.gui.Localization;
 import jmemorize.gui.swing.frames.MainFrame;
 
-public class ImportJMLAction extends AbstractImportAction
-{
-    public ImportJMLAction()
-    {
-        setValues();
-    }
-    
-    /* (non-Javadoc)
-     * @see jmemorize.gui.swing.actions.file.AbstractImportAction
-     */
-    protected void doImport(File file, Lesson lesson) throws IOException
-    {
-        try
-        {
-            XmlBuilder.loadFromXMLFile(file, lesson);
-        } 
-        catch (Exception e)
-        {
-            throw new IOException(e.getLocalizedMessage());
-        }
-    }
+public class ImportJMLAction extends AbstractImportAction {
 
-    protected FileFilter getFileFilter()
-    {
-        return MainFrame.FILE_FILTER;
-    }
-    
-    private void setValues()
-    {
-        setName(Localization.get(LC.FILE_FILTER_DESC));
-        setMnemonic(1);
-        setIcon("/resource/icons/file_saveas.gif"); //$NON-NLS-1$
-    }
+ public ImportJMLAction() {
+  setValues();
+ }
+
+ /*
+  * (non-Javadoc) @see jmemorize.gui.swing.actions.file.AbstractImportAction
+  */
+ protected void doImport(File file, Lesson lesson) throws IOException {
+  try {
+   XmlBuilder.loadFromXMLFile(file, lesson);
+  } catch (Exception e) {
+   throw new IOException(e.getLocalizedMessage());
+  }
+ }
+
+ protected FileFilter getFileFilter() {
+  return MainFrame.FILE_FILTER;
+ }
+
+ private void setValues() {
+  setName(Localization.get(LC.FILE_FILTER_DESC));
+  setMnemonic(1);
+  setIcon("/resource/icons/file_saveas.gif"); //$NON-NLS-1$
+ }
+
 }

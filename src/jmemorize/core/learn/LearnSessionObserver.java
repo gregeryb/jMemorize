@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -19,12 +19,15 @@
 package jmemorize.core.learn;
 
 /**
- * You can register a learn session observer at the {@link LearnSessionProvider}.
- * 
+ * You can register a learn session observer at the
+ * {@link LearnSessionProvider}.
+ *
  * @author djemili
  */
-public interface LearnSessionObserver
-{
-    public void sessionStarted(LearnSession session);
-    public void sessionEnded(LearnSession session);
+public interface LearnSessionObserver {
+
+ public void sessionStarted(LearnSession session);
+
+ public void sessionEnded(LearnSession session);
+
 }

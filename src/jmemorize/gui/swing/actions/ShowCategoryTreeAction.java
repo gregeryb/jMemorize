@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -19,7 +19,6 @@
 package jmemorize.gui.swing.actions;
 
 import java.awt.event.KeyEvent;
-
 import jmemorize.core.Main;
 import jmemorize.gui.Localization;
 import jmemorize.gui.swing.frames.MainFrame;
@@ -27,31 +26,29 @@ import jmemorize.gui.swing.frames.MainFrame;
 /**
  * Toggles the category tree (showing it when its currently hidden and vice
  * versa).
- * 
+ *
  * @author djemili
  */
 //TODO rename to ToggleCategoryTreeAction
-public class ShowCategoryTreeAction extends AbstractSessionDisabledAction
-{
-    public ShowCategoryTreeAction()
-    {
-        setValues();
-    }
+public class ShowCategoryTreeAction extends AbstractSessionDisabledAction {
 
-    /* (non-Javadoc)
-     * @see java.awt.event.ActionListener
-     */
-    public void actionPerformed(java.awt.event.ActionEvent e)
-    {
-        MainFrame frame = Main.getInstance().getFrame();
-        frame.showCategoryTree(!frame.isShowCategoryTree());
-    }
-    
-    private void setValues()
-    {
-        setName(Localization.get("MainFrame.CATEGORY_TREE")); //$NON-NLS-1$
-        setDescription(Localization.get("MainFrame.CATEGORY_TREE_DESC")); //$NON-NLS-1$
-        setIcon("/resource/icons/tree.gif"); //$NON-NLS-1$
-        setAccelerator(KeyEvent.VK_T, 0);
-    }
+ public ShowCategoryTreeAction() {
+  setValues();
+ }
+
+ /*
+  * (non-Javadoc) @see java.awt.event.ActionListener
+  */
+ public void actionPerformed(java.awt.event.ActionEvent e) {
+  MainFrame frame = Main.getInstance().getFrame();
+  frame.showCategoryTree(!frame.isShowCategoryTree());
+ }
+
+ private void setValues() {
+  setName(Localization.get("MainFrame.CATEGORY_TREE")); //$NON-NLS-1$
+  setDescription(Localization.get("MainFrame.CATEGORY_TREE_DESC")); //$NON-NLS-1$
+  setIcon("/resource/icons/tree.gif"); //$NON-NLS-1$
+  setAccelerator(KeyEvent.VK_T, 0);
+ }
+
 }

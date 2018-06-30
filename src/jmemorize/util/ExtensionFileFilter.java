@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -19,43 +19,39 @@
 package jmemorize.util;
 
 import java.io.File;
-
 import javax.swing.filechooser.FileFilter;
 
 /**
  * A sime file filter for file choosers.
- * 
+ *
  * @author djemili
  */
-public class ExtensionFileFilter extends FileFilter
-{
-    private String m_extension;
-    private String m_description;
+public class ExtensionFileFilter extends FileFilter {
 
-    public ExtensionFileFilter(String extension, String description)
-    {
-        m_extension = extension;
-        m_description = description;
-    }
+ private String m_extension;
+ private String m_description;
 
-    /*
-     * @see javax.swing.filechooser.FileFilter
-     */
-    public boolean accept(File f)
-    {
-        return f.isDirectory() || f.getName().endsWith(m_extension);
-    }
+ public ExtensionFileFilter(String extension, String description) {
+  m_extension = extension;
+  m_description = description;
+ }
 
-    /*
-     * @see javax.swing.filechooser.FileFilter
-     */
-    public String getDescription()
-    {
-        return m_description;
-    }
+ /*
+  * @see javax.swing.filechooser.FileFilter
+  */
+ public boolean accept(File f) {
+  return f.isDirectory() || f.getName().endsWith(m_extension);
+ }
 
-    public String getExtension()
-    {
-        return m_extension;
-    }
+ /*
+  * @see javax.swing.filechooser.FileFilter
+  */
+ public String getDescription() {
+  return m_description;
+ }
+
+ public String getExtension() {
+  return m_extension;
+ }
+
 }

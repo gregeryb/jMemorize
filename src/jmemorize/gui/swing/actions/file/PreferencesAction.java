@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -19,7 +19,6 @@
 package jmemorize.gui.swing.actions.file;
 
 import java.awt.event.KeyEvent;
-
 import jmemorize.core.Main;
 import jmemorize.gui.Localization;
 import jmemorize.gui.swing.actions.AbstractSessionDisabledAction;
@@ -27,32 +26,29 @@ import jmemorize.gui.swing.dialogs.PreferencesDialog;
 
 /**
  * An action that shows the preferences dialog.
- * 
+ *
  * @author djemili
  */
-public class PreferencesAction extends AbstractSessionDisabledAction
-{
-    public PreferencesAction()
-    {
-        setValues();
-    }
+public class PreferencesAction extends AbstractSessionDisabledAction {
 
-    /* (non-Javadoc)
-     * @see java.awt.event.ActionListener
-     */
-    public void actionPerformed(java.awt.event.ActionEvent e)
-    {
-        Main main = Main.getInstance();
-        
-        new PreferencesDialog(main.getFrame());
-    }
-    
-    private void setValues()
-    {
-        setName(Localization.get("MainFrame.PREFERENCES") + ".."); //$NON-NLS-1$ //$NON-NLS-2$ 
-        setDescription(Localization.get("MainFrame.PREFERENCES_DESC")); //$NON-NLS-1$ 
-        setIcon("/resource/icons/settings.gif"); //$NON-NLS-1$ 
-        setAccelerator(KeyEvent.VK_P, SHORTCUT_KEY);
-        setMnemonic(1);
-    }
+ public PreferencesAction() {
+  setValues();
+ }
+
+ /*
+  * (non-Javadoc) @see java.awt.event.ActionListener
+  */
+ public void actionPerformed(java.awt.event.ActionEvent e) {
+  Main main = Main.getInstance();
+  new PreferencesDialog(main.getFrame());
+ }
+
+ private void setValues() {
+  setName(Localization.get("MainFrame.PREFERENCES") + ".."); //$NON-NLS-1$ //$NON-NLS-2$ 
+  setDescription(Localization.get("MainFrame.PREFERENCES_DESC")); //$NON-NLS-1$ 
+  setIcon("/resource/icons/settings.gif"); //$NON-NLS-1$ 
+  setAccelerator(KeyEvent.VK_P, SHORTCUT_KEY);
+  setMnemonic(1);
+ }
+
 }

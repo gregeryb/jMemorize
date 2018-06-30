@@ -1,0 +1,387 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.lang;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Locale;
+
+/**
+ * <p>
+ * Escapes and unescapes <code>String</code>s for Java, Java Script, HTML, XML,
+ * and SQL.</p>
+ *
+ * <p>
+ * #ThreadSafe#</p>
+ *
+ * @author Apache Software Foundation
+ * @author Apache Jakarta Turbine
+ * @author Purple Technology
+ * @author <a href="mailto:alex@purpletech.com">Alexander Day Chaffee</a>
+ * @author Antony Riley
+ * @author Helge Tesgaard
+ * @author <a href="sean@boohai.com">Sean Brown</a>
+ * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
+ * @author Phil Steitz
+ * @author Pete Gieser
+ * @since 2.0
+ * @version $Id: StringEscapeUtils.java 1057072 2011-01-10 01:55:57Z niallp $
+ */
+public class StringEscapeUtils {
+
+ private static final char CSV_DELIMITER = ',';
+ private static final char CSV_QUOTE = '"';
+ private static final String CSV_QUOTE_STR = String.valueOf(CSV_QUOTE);
+ private static final char[] CSV_SEARCH_CHARS = new char[]{CSV_DELIMITER,
+  CSV_QUOTE, '\r', '\n'};
+
+ /**
+  * <p>
+  * <code>StringEscapeUtils</code> instances should NOT be constructed in
+  * standard programming.</p>
+  *
+  * <p>
+  * Instead, the class should be used as:
+  * <pre>StringEscapeUtils.escapeJava("foo");</pre></p>
+  *
+  * <p>
+  * This constructor is public to permit tools that require a JavaBean instance
+  * to operate.</p>
+  */
+ public StringEscapeUtils() {
+  super();
+ }
+
+ // HTML and XML
+ //--------------------------------------------------------------------------
+ /**
+  * <p>
+  * Escapes the characters in a <code>String</code> using HTML entities.</p>
+  *
+  * <p>
+  * For example:
+  * </p>
+  * <p>
+  * <code>"bread" & "butter"</code></p>
+  * becomes:
+  * <p>
+  * <code>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</code>.
+  * </p>
+  *
+  * <p>
+  * Supports all known HTML 4.0 entities, including funky accents. Note that the
+  * commonly used apostrophe escape character (&amp;apos;) is not a legal entity
+  * and so is not supported). </p>
+  *
+  * @param str the <code>String</code> to escape, may be null
+  * @return a new escaped <code>String</code>, <code>null</code> if null string
+  * input
+  *
+  * @see #unescapeHtml(String)
+  * @see
+  * <a href="http://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO
+  * Entities</a>
+  * @see <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character
+  * Entities for ISO Latin-1</a>
+  * @see <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0
+  * Character entity references</a>
+  * @see <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01
+  * Character References</a>
+  * @see <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML
+  * 4.01 Code positions</a>
+  */
+ public static String escapeHtml(String str) {
+  if (str == null) {
+   return null;
+  }
+  try {
+   StringWriter writer = new StringWriter((int) (str.length() * 1.5));
+   escapeHtml(writer, str);
+   return writer.toString();
+  } catch (IOException ioe) {
+   //should be impossible
+   //throw new UnhandledException(ioe);
+   return null;
+  }
+ }
+
+ /**
+  * <p>
+  * Escapes the characters in a <code>String</code> using HTML entities and
+  * writes them to a <code>Writer</code>.</p>
+  *
+  * <p>
+  * For example:
+  * </p>
+  * <code>"bread" & "butter"</code>
+  * <p>
+  * becomes:</p>
+  * <code>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</code>.
+  *
+  * <p>
+  * Supports all known HTML 4.0 entities, including funky accents. Note that the
+  * commonly used apostrophe escape character (&amp;apos;) is not a legal entity
+  * and so is not supported). </p>
+  *
+  * @param writer the writer receiving the escaped string, not null
+  * @param string the <code>String</code> to escape, may be null
+  * @throws IllegalArgumentException if the writer is null
+  * @throws IOException when <code>Writer</code> passed throws the exception
+  * from calls to the {@link Writer#write(int)} methods.
+  *
+  * @see #escapeHtml(String)
+  * @see #unescapeHtml(String)
+  * @see
+  * <a href="http://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO
+  * Entities</a>
+  * @see <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character
+  * Entities for ISO Latin-1</a>
+  * @see <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0
+  * Character entity references</a>
+  * @see <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01
+  * Character References</a>
+  * @see <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML
+  * 4.01 Code positions</a>
+  */
+ public static void escapeHtml(Writer writer, String string) throws IOException {
+  if (writer == null) {
+   throw new IllegalArgumentException("The Writer must not be null.");
+  }
+  if (string == null) {
+   return;
+  }
+  Entities.HTML40.escape(writer, string);
+ }
+
+ //-----------------------------------------------------------------------
+ /**
+  * <p>
+  * Unescapes a string containing entity escapes to a string containing the
+  * actual Unicode characters corresponding to the escapes. Supports HTML 4.0
+  * entities.</p>
+  *
+  * <p>
+  * For example, the string "&amp;lt;Fran&amp;ccedil;ais&amp;gt;" will become
+  * "&lt;Fran&ccedil;ais&gt;"</p>
+  *
+  * <p>
+  * If an entity is unrecognized, it is left alone, and inserted verbatim into
+  * the result string. e.g. "&amp;gt;&amp;zzzz;x" will become
+  * "&gt;&amp;zzzz;x".</p>
+  *
+  * @param str the <code>String</code> to unescape, may be null
+  * @return a new unescaped <code>String</code>, <code>null</code> if null
+  * string input
+  * @see #escapeHtml(Writer, String)
+  */
+ public static String unescapeHtml(String str) {
+  if (str == null) {
+   return null;
+  }
+  try {
+   StringWriter writer = new StringWriter((int) (str.length() * 1.5));
+   unescapeHtml(writer, str);
+   return writer.toString();
+  } catch (IOException ioe) {
+   //should be impossible
+   //throw new UnhandledException(ioe);
+   return null;
+  }
+ }
+
+ /**
+  * <p>
+  * Unescapes a string containing entity escapes to a string containing the
+  * actual Unicode characters corresponding to the escapes. Supports HTML 4.0
+  * entities.</p>
+  *
+  * <p>
+  * For example, the string "&amp;lt;Fran&amp;ccedil;ais&amp;gt;" will become
+  * "&lt;Fran&ccedil;ais&gt;"</p>
+  *
+  * <p>
+  * If an entity is unrecognized, it is left alone, and inserted verbatim into
+  * the result string. e.g. "&amp;gt;&amp;zzzz;x" will become
+  * "&gt;&amp;zzzz;x".</p>
+  *
+  * @param writer the writer receiving the unescaped string, not null
+  * @param string the <code>String</code> to unescape, may be null
+  * @throws IllegalArgumentException if the writer is null
+  * @throws IOException if an IOException occurs
+  * @see #escapeHtml(String)
+  */
+ public static void unescapeHtml(Writer writer, String string) throws
+  IOException {
+  if (writer == null) {
+   throw new IllegalArgumentException("The Writer must not be null.");
+  }
+  if (string == null) {
+   return;
+  }
+  Entities.HTML40.unescape(writer, string);
+ }
+
+ //-----------------------------------------------------------------------
+ /**
+  * <p>
+  * Unescapes a string containing XML entity escapes to a string containing the
+  * actual Unicode characters corresponding to the escapes.</p>
+  *
+  * <p>
+  * Supports only the five basic XML entities (gt, lt, quot, amp, apos). Does
+  * not support DTDs or external entities.</p>
+  *
+  * <p>
+  * Note that numerical \\u unicode codes are unescaped to their respective
+  * unicode characters. This may change in future releases. </p>
+  *
+  * @param writer the writer receiving the unescaped string, not null
+  * @param str the <code>String</code> to unescape, may be null
+  * @throws IllegalArgumentException if the writer is null
+  * @throws IOException if there is a problem writing
+  * @see #escapeXml(String)
+  */
+ public static void unescapeXml(Writer writer, String str) throws IOException {
+  if (writer == null) {
+   throw new IllegalArgumentException("The Writer must not be null.");
+  }
+  if (str == null) {
+   return;
+  }
+  Entities.XML.unescape(writer, str);
+ }
+
+ /**
+  * <p>
+  * Unescapes a string containing XML entity escapes to a string containing the
+  * actual Unicode characters corresponding to the escapes.</p>
+  *
+  * <p>
+  * Supports only the five basic XML entities (gt, lt, quot, amp, apos). Does
+  * not support DTDs or external entities.</p>
+  *
+  * <p>
+  * Note that numerical \\u unicode codes are unescaped to their respective
+  * unicode characters. This may change in future releases. </p>
+  *
+  * @param str the <code>String</code> to unescape, may be null
+  * @return a new unescaped <code>String</code>, <code>null</code> if null
+  * string input
+  * @see #escapeXml(String)
+  */
+ public static String unescapeXml(String str) {
+  if (str == null) {
+   return null;
+  }
+  return Entities.XML.unescape(str);
+ }
+
+ //-----------------------------------------------------------------------
+ /**
+  * <p>
+  * Returns a <code>String</code> value for a CSV column enclosed in double
+  * quotes, if required.</p>
+  *
+  * <p>
+  * If the value contains a comma, newline or double quote, then the String
+  * value is returned enclosed in double quotes.</p>
+  * </p>
+  *
+  * <p>
+  * Any double quote characters in the value are escaped with another double
+  * quote.</p>
+  *
+  * <p>
+  * If the value does not contain a comma, newline or double quote, then the
+  * String value is returned unchanged.</p>
+  * </p>
+  *
+  * see
+  * <a href="http://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a>
+  * and
+  * <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+  *
+  * @param str the input CSV column String, may be null
+  * @return the input String, enclosed in double quotes if the value contains a
+  * comma, newline or double quote, <code>null</code> if null string input
+  * @since 2.4
+  */
+ public static String escapeCsv(String str) {
+  if (StringUtils.containsNone(str, CSV_SEARCH_CHARS)) {
+   return str;
+  }
+  try {
+   StringWriter writer = new StringWriter();
+   escapeCsv(writer, str);
+   return writer.toString();
+  } catch (IOException ioe) {
+   // this should never ever happen while writing to a StringWriter
+   //throw new UnhandledException(ioe);
+   return null;
+  }
+ }
+
+ /**
+  * <p>
+  * Writes a <code>String</code> value for a CSV column enclosed in double
+  * quotes, if required.</p>
+  *
+  * <p>
+  * If the value contains a comma, newline or double quote, then the String
+  * value is written enclosed in double quotes.</p>
+  * </p>
+  *
+  * <p>
+  * Any double quote characters in the value are escaped with another double
+  * quote.</p>
+  *
+  * <p>
+  * If the value does not contain a comma, newline or double quote, then the
+  * String value is written unchanged (null values are ignored).</p>
+  * </p>
+  *
+  * see
+  * <a href="http://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a>
+  * and
+  * <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+  *
+  * @param str the input CSV column String, may be null
+  * @param out Writer to write input string to, enclosed in double quotes if it
+  * contains a comma, newline or double quote
+  * @throws IOException if error occurs on underlying Writer
+  * @since 2.4
+  */
+ public static void escapeCsv(Writer out, String str) throws IOException {
+  if (StringUtils.containsNone(str, CSV_SEARCH_CHARS)) {
+   if (str != null) {
+    out.write(str);
+   }
+   return;
+  }
+  out.write(CSV_QUOTE);
+  for (int i = 0; i < str.length(); i++) {
+   char c = str.charAt(i);
+   if (c == CSV_QUOTE) {
+    out.write(CSV_QUOTE); // escape double quote
+   }
+   out.write(c);
+  }
+  out.write(CSV_QUOTE);
+ }
+
+}

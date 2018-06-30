@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2008 Riad Djemili and contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -20,7 +20,6 @@ package jmemorize.gui.swing.actions.file;
 
 import java.io.File;
 import java.io.IOException;
-
 import jmemorize.core.Lesson;
 import jmemorize.core.Main;
 import jmemorize.gui.LC;
@@ -30,37 +29,34 @@ import jmemorize.util.ExtensionFileFilter;
 
 /**
  * An action that opens up a file chooser and saves the lesson at that location.
- * 
+ *
  * @author djemili
  */
-public class ExportToCleanLessonAction extends AbstractExportAction
-{
-    public ExportToCleanLessonAction()
-    {
-        setValues();
-    }
+public class ExportToCleanLessonAction extends AbstractExportAction {
 
-    /* (non-Javadoc)
-     * @see jmemorize.gui.swing.actions.AbstractExportAction
-     */
-    protected void doExport(Lesson lesson, File file) throws IOException
-    {
-        Lesson cleanLesson = lesson.cloneWithoutProgress();
-        Main.getInstance().getFrame().saveLesson(cleanLesson, file);
-    }
+ public ExportToCleanLessonAction() {
+  setValues();
+ }
 
-    /* (non-Javadoc)
-     * @see jmemorize.gui.swing.actions.AbstractExportAction
-     */
-    protected ExtensionFileFilter getFileFilter()
-    {
-        return MainFrame.FILE_FILTER;
-    }
+ /*
+  * (non-Javadoc) @see jmemorize.gui.swing.actions.AbstractExportAction
+  */
+ protected void doExport(Lesson lesson, File file) throws IOException {
+  Lesson cleanLesson = lesson.cloneWithoutProgress();
+  Main.getInstance().getFrame().saveLesson(cleanLesson, file);
+ }
 
-    private void setValues()
-    {
-        setName(Localization.get(LC.EXPORT_CLEAN));
-        setDescription(Localization.get(LC.EXPORT_CLEAN_DESC));
-        setIcon("/resource/icons/file_saveas.gif"); //$NON-NLS-1$
-    }
+ /*
+  * (non-Javadoc) @see jmemorize.gui.swing.actions.AbstractExportAction
+  */
+ protected ExtensionFileFilter getFileFilter() {
+  return MainFrame.FILE_FILTER;
+ }
+
+ private void setValues() {
+  setName(Localization.get(LC.EXPORT_CLEAN));
+  setDescription(Localization.get(LC.EXPORT_CLEAN_DESC));
+  setIcon("/resource/icons/file_saveas.gif"); //$NON-NLS-1$
+ }
+
 }

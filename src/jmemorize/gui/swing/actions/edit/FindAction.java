@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -19,7 +19,6 @@
 package jmemorize.gui.swing.actions.edit;
 
 import java.awt.event.KeyEvent;
-
 import jmemorize.core.Category;
 import jmemorize.core.Main;
 import jmemorize.gui.Localization;
@@ -29,30 +28,27 @@ import jmemorize.gui.swing.frames.MainFrame;
 
 /**
  * An action that shows the search window.
- * 
+ *
  * @author djemili
  */
-public class FindAction extends AbstractAction2
-{
-    public FindAction()
-    {
-        setValues();
-    }
+public class FindAction extends AbstractAction2 {
 
-    public void actionPerformed(java.awt.event.ActionEvent e)
-    {
-        Main main = Main.getInstance();
-        MainFrame frame = main.getFrame();
-        
-        Category rootCategory = main.getLesson().getRootCategory();
-        FindFrame.getInstance().show(rootCategory, frame.getCategory());
-    }
+ public FindAction() {
+  setValues();
+ }
 
-    private void setValues()
-    {
-        setName(Localization.get("MainFrame.FIND")); //$NON-NLS-1$
-        setIcon("/resource/icons/find.gif"); //$NON-NLS-1$
-        setDescription(Localization.get("MainFrame.FIND_DESC")); //$NON-NLS-1$
-        setAccelerator(KeyEvent.VK_F, SHORTCUT_KEY);
-    }
+ public void actionPerformed(java.awt.event.ActionEvent e) {
+  Main main = Main.getInstance();
+  MainFrame frame = main.getFrame();
+  Category rootCategory = main.getLesson().getRootCategory();
+  FindFrame.getInstance().show(rootCategory, frame.getCategory());
+ }
+
+ private void setValues() {
+  setName(Localization.get("MainFrame.FIND")); //$NON-NLS-1$
+  setIcon("/resource/icons/find.gif"); //$NON-NLS-1$
+  setDescription(Localization.get("MainFrame.FIND_DESC")); //$NON-NLS-1$
+  setAccelerator(KeyEvent.VK_F, SHORTCUT_KEY);
+ }
+
 }

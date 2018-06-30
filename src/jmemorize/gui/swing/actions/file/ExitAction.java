@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -25,41 +25,36 @@ import jmemorize.gui.swing.frames.MainFrame;
 
 /**
  * An action that exists jMemorize (after confirmation).
- * 
- * @see MainFrame#confirmCloseLesson() 
- * 
+ *
+ * @see MainFrame#confirmCloseLesson()
+ *
  * @author djemili
  */
-public class ExitAction extends AbstractSessionDisabledAction
-{
-    public ExitAction()
-    {
-        setValues();
-    }
+public class ExitAction extends AbstractSessionDisabledAction {
 
-    /* (non-Javadoc)
-     * @see java.awt.event.ActionListener
-     */
-    public void actionPerformed(java.awt.event.ActionEvent e)
-    {
-        exit();
-    }
+ public ExitAction() {
+  setValues();
+ }
 
-    public static void exit()
-    {
-        Main main = Main.getInstance();
-    
-        if (main.getFrame().confirmCloseLesson())
-        {
-            main.exit();
-        }
-    }
+ /*
+  * (non-Javadoc) @see java.awt.event.ActionListener
+  */
+ public void actionPerformed(java.awt.event.ActionEvent e) {
+  exit();
+ }
 
-    private void setValues()
-    {
-        setName(Localization.get("MainFrame.EXIT")); //$NON-NLS-1$
-        setDescription(Localization.get("MainFrame.EXIT_DESC")); //$NON-NLS-1$
-        setIcon("/resource/icons/blank.gif"); //$NON-NLS-1$
-        setMnemonic(2);
-    }
+ public static void exit() {
+  Main main = Main.getInstance();
+  if (main.getFrame().confirmCloseLesson()) {
+   main.exit();
+  }
+ }
+
+ private void setValues() {
+  setName(Localization.get("MainFrame.EXIT")); //$NON-NLS-1$
+  setDescription(Localization.get("MainFrame.EXIT_DESC")); //$NON-NLS-1$
+  setIcon("/resource/icons/blank.gif"); //$NON-NLS-1$
+  setMnemonic(2);
+ }
+
 }

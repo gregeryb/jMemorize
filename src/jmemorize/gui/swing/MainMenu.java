@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -22,7 +22,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
 import jmemorize.core.Main;
 import jmemorize.gui.Localization;
 import jmemorize.gui.swing.actions.AboutAction;
@@ -58,145 +57,122 @@ import jmemorize.util.RecentItems.RecentItemsObserver;
 
 /**
  * The main menu of jMemorize.
- * 
+ *
  * @author djemili
  */
-public class MainMenu extends JMenuBar implements RecentItemsObserver
-{
-    private JMenu                       m_fileMenu;
-    
-    public MainMenu(SelectionProvider selectionProvider, RecentItems recentFiles)
-    {
-        buildMenu(selectionProvider);
-        recentFiles.addObserver(this);
-    }
-    
-    /* (non-Javadoc)
-     * @see jmemorize.util.RecentItems.RecentItemsObserver
-     */
-    public void onRecentItemChange(RecentItems src)
-    {
-        buildFileMenu();
-    }
-    
-    private void buildMenu(SelectionProvider provider)
-    {
-        m_fileMenu = new JMenu(Localization.get("MainFrame.MENU_FILE")); //$NON-NLS-1$
-        add(m_fileMenu);
-        
-        buildFileMenu();
-        add(buildEditMenu(provider));
-        add(buildLearnMenu(provider));
-        add(buildHelpMenu());
-    }
+public class MainMenu extends JMenuBar implements RecentItemsObserver {
 
-    private JMenu buildLearnMenu(SelectionProvider provider)
-    {
-        JMenu learnMenu = new JMenu(Localization.get("MainFrame.MENU_LESSON")); //$NON-NLS-1$
-        learnMenu.add(new JMenuItem(new AddCardAction(provider)));
-        learnMenu.add(new JMenuItem(new AddCategoryAction(provider)));
-        learnMenu.addSeparator();
-        learnMenu.add(new JMenuItem(new LearnAction(provider)));
-        learnMenu.add(new JMenuItem(new ShowHistoryAction()));
-        return learnMenu;
-    }
+ private JMenu m_fileMenu;
 
-    private JMenu buildEditMenu(SelectionProvider provider)
-    {
-        JMenu editMenu = new JMenu(Localization.get("MainFrame.MENU_EDIT")); //$NON-NLS-1$
-        editMenu.add(new JMenuItem(new EditCardAction(provider)));
-        editMenu.addSeparator();
-        editMenu.add(new JMenuItem(new CutAction(provider)));
-        editMenu.add(new JMenuItem(new CopyAction(provider)));
-        editMenu.add(new JMenuItem(new PasteAction(provider)));
-        editMenu.addSeparator();
-        editMenu.add(new JMenuItem(new RemoveAction(provider)));
-        
-        if (Main.isDevel())
-            editMenu.add(new JMenuItem(new RenameCategoryAction(provider)));
-        
-        editMenu.add(new JMenuItem(new ResetCardAction(provider)));
-        editMenu.addSeparator();
-        editMenu.add(new JMenuItem(new FindAction()));
-        return editMenu;
-    }
+ public MainMenu(SelectionProvider selectionProvider, RecentItems recentFiles) {
+  buildMenu(selectionProvider);
+  recentFiles.addObserver(this);
+ }
 
-    private JMenu buildHelpMenu()
-    {
-        JMenu menu = new JMenu(Localization.get("MainFrame.MENU_HELP")); //$NON-NLS-1$
-        menu.add(new JMenuItem(new AboutAction()));
-        menu.addSeparator();
-        
-        menu.add(new JMenuItem(new OpenURLAction(
-            Localization.get("URL.HOMEPAGE"), //$NON-NLS-1$
-            "http://jmemorize.org" //$NON-NLS-1$
-        )));
-        
-        menu.add(new JMenuItem(new OpenURLAction(
-            Localization.get("URL.MANUAL"), //$NON-NLS-1$
-            "http://wiki.jmemorize.org/User_Manual" //$NON-NLS-1$
-        )));
-        
-        menu.add(new JMenuItem(new OpenURLAction(
-            Localization.get("URL.FEATURE_TRACKER"), //$NON-NLS-1$
-            "http://sourceforge.net/tracker/?group_id=121967&atid=691941" //$NON-NLS-1$
-        )));
-        
-        menu.add(new JMenuItem(new OpenURLAction(
-            Localization.get("URL.BUG_TRACKER"), //$NON-NLS-1$
-            "http://sourceforge.net/tracker/?group_id=121967&atid=691938" //$NON-NLS-1$
-        )));
-        
-        return menu;
-    }
+ /*
+  * (non-Javadoc) @see jmemorize.util.RecentItems.RecentItemsObserver
+  */
+ public void onRecentItemChange(RecentItems src) {
+  buildFileMenu();
+ }
 
-    private void buildFileMenu()
-    {
-        m_fileMenu.removeAll();
-        m_fileMenu.add(new NewLessonAction());
-        m_fileMenu.add(new OpenLessonAction());
-        m_fileMenu.add(new SaveLessonAction());
-        m_fileMenu.add(new SaveLessonAsAction());
-        
-        // sub menu for import menu items
-        JMenu importMenu = new JMenu(Localization.get("MainFrame.IMPORT")); //$NON-NLS-1$
-        importMenu.setIcon(new ImageIcon(
-            getClass().getResource("/resource/icons/blank.gif"))); //$NON-NLS-1$
-        importMenu.add(new ImportCSVAction());
-        importMenu.add(new ImportTSVAction());
-        importMenu.add(new ImportJMLAction());
-        
-        
-        // Sub menu for export menu items 
-        JMenu exportMenu = new JMenu(Localization.get("MainFrame.EXPORT")); //$NON-NLS-1$
-        exportMenu.setIcon(new ImageIcon(
-            getClass().getResource("/resource/icons/blank.gif"))); //$NON-NLS-1$
-        exportMenu.add(new ExportToPDFAction());
-        exportMenu.add(new ExportToRTFAction());
-        exportMenu.add(new ExportToCSVAction());
-        exportMenu.add(new ExportToCleanLessonAction());
-        
-        m_fileMenu.addSeparator();
-        m_fileMenu.add(importMenu);
-        m_fileMenu.add(exportMenu);
-        
-        // add recent files menu items
-        int recentFiles = Main.getInstance().getRecentLessonFiles().size();
+ private void buildMenu(SelectionProvider provider) {
+  m_fileMenu = new JMenu(Localization.get("MainFrame.MENU_FILE")); //$NON-NLS-1$
+  add(m_fileMenu);
+  buildFileMenu();
+  add(buildEditMenu(provider));
+  add(buildLearnMenu(provider));
+  add(buildHelpMenu());
+ }
 
-        if (recentFiles > 0)
-        {
-            m_fileMenu.addSeparator();
-        }
+ private JMenu buildLearnMenu(SelectionProvider provider) {
+  JMenu learnMenu = new JMenu(Localization.get("MainFrame.MENU_LESSON")); //$NON-NLS-1$
+  learnMenu.add(new JMenuItem(new AddCardAction(provider)));
+  learnMenu.add(new JMenuItem(new AddCategoryAction(provider)));
+  learnMenu.addSeparator();
+  learnMenu.add(new JMenuItem(new LearnAction(provider)));
+  learnMenu.add(new JMenuItem(new ShowHistoryAction()));
+  return learnMenu;
+ }
 
-        for (int i = 0; i < recentFiles; i++)
-        {
-            JMenuItem menuItem = new JMenuItem(new OpenRecentLessonAction(i));
-            m_fileMenu.add(menuItem);
-        }
+ private JMenu buildEditMenu(SelectionProvider provider) {
+  JMenu editMenu = new JMenu(Localization.get("MainFrame.MENU_EDIT")); //$NON-NLS-1$
+  editMenu.add(new JMenuItem(new EditCardAction(provider)));
+  editMenu.addSeparator();
+  editMenu.add(new JMenuItem(new CutAction(provider)));
+  editMenu.add(new JMenuItem(new CopyAction(provider)));
+  editMenu.add(new JMenuItem(new PasteAction(provider)));
+  editMenu.addSeparator();
+  editMenu.add(new JMenuItem(new RemoveAction(provider)));
+  if (Main.isDevel()) {
+   editMenu.add(new JMenuItem(new RenameCategoryAction(provider)));
+  }
+  editMenu.add(new JMenuItem(new ResetCardAction(provider)));
+  editMenu.addSeparator();
+  editMenu.add(new JMenuItem(new FindAction()));
+  return editMenu;
+ }
 
-        m_fileMenu.addSeparator();
-        m_fileMenu.add(new JMenuItem(new PreferencesAction()));
-        m_fileMenu.addSeparator();
-        m_fileMenu.add(new JMenuItem(new ExitAction()));
-    }
+ private JMenu buildHelpMenu() {
+  JMenu menu = new JMenu(Localization.get("MainFrame.MENU_HELP")); //$NON-NLS-1$
+  menu.add(new JMenuItem(new AboutAction()));
+  menu.addSeparator();
+  menu.add(new JMenuItem(new OpenURLAction(
+   Localization.get("URL.HOMEPAGE"), //$NON-NLS-1$
+   "http://jmemorize.org" //$NON-NLS-1$
+  )));
+  menu.add(new JMenuItem(new OpenURLAction(
+   Localization.get("URL.MANUAL"), //$NON-NLS-1$
+   "http://wiki.jmemorize.org/User_Manual" //$NON-NLS-1$
+  )));
+  menu.add(new JMenuItem(new OpenURLAction(
+   Localization.get("URL.FEATURE_TRACKER"), //$NON-NLS-1$
+   "http://sourceforge.net/tracker/?group_id=121967&atid=691941" //$NON-NLS-1$
+  )));
+  menu.add(new JMenuItem(new OpenURLAction(
+   Localization.get("URL.BUG_TRACKER"), //$NON-NLS-1$
+   "http://sourceforge.net/tracker/?group_id=121967&atid=691938" //$NON-NLS-1$
+  )));
+  return menu;
+ }
+
+ private void buildFileMenu() {
+  m_fileMenu.removeAll();
+  m_fileMenu.add(new NewLessonAction());
+  m_fileMenu.add(new OpenLessonAction());
+  m_fileMenu.add(new SaveLessonAction());
+  m_fileMenu.add(new SaveLessonAsAction());
+  // sub menu for import menu items
+  JMenu importMenu = new JMenu(Localization.get("MainFrame.IMPORT")); //$NON-NLS-1$
+  importMenu.setIcon(new ImageIcon(
+   getClass().getResource("/resource/icons/blank.gif"))); //$NON-NLS-1$
+  importMenu.add(new ImportCSVAction());
+  importMenu.add(new ImportTSVAction());
+  importMenu.add(new ImportJMLAction());
+  // Sub menu for export menu items 
+  JMenu exportMenu = new JMenu(Localization.get("MainFrame.EXPORT")); //$NON-NLS-1$
+  exportMenu.setIcon(new ImageIcon(
+   getClass().getResource("/resource/icons/blank.gif"))); //$NON-NLS-1$
+  exportMenu.add(new ExportToPDFAction());
+  exportMenu.add(new ExportToRTFAction());
+  exportMenu.add(new ExportToCSVAction());
+  exportMenu.add(new ExportToCleanLessonAction());
+  m_fileMenu.addSeparator();
+  m_fileMenu.add(importMenu);
+  m_fileMenu.add(exportMenu);
+  // add recent files menu items
+  int recentFiles = Main.getInstance().getRecentLessonFiles().size();
+  if (recentFiles > 0) {
+   m_fileMenu.addSeparator();
+  }
+  for (int i = 0; i < recentFiles; i++) {
+   JMenuItem menuItem = new JMenuItem(new OpenRecentLessonAction(i));
+   m_fileMenu.add(menuItem);
+  }
+  m_fileMenu.addSeparator();
+  m_fileMenu.add(new JMenuItem(new PreferencesAction()));
+  m_fileMenu.addSeparator();
+  m_fileMenu.add(new JMenuItem(new ExitAction()));
+ }
+
 }

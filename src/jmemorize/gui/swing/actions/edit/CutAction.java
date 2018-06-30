@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2008 Riad Djemili and contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -20,7 +20,6 @@ package jmemorize.gui.swing.actions.edit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import jmemorize.core.Main;
 import jmemorize.gui.LC;
 import jmemorize.gui.Localization;
@@ -30,60 +29,57 @@ import jmemorize.gui.swing.SelectionProvider.SelectionObserver;
 import jmemorize.gui.swing.actions.AbstractSessionDisabledAction;
 import jmemorize.gui.swing.frames.MainFrame;
 
-/** 
+/**
  * An action that invokes the generic Swing CUT action on the current focus
  * owner.
- * 
+ *
  * @author djemili
  */
-public class CutAction extends AbstractSessionDisabledAction implements SelectionObserver
-{
-    SelectionProvider m_selectionProvider;
-    
-    public CutAction(SelectionProvider selectionProvider)
-    {
-        m_selectionProvider = selectionProvider;
-        m_selectionProvider.addSelectionObserver(this);
-        
-        setValues();
-    }
+public class CutAction extends AbstractSessionDisabledAction implements
+ SelectionObserver {
 
-    /* (non-Javadoc)
-     * @see java.awt.event.ActionListener
-     */
-    public void actionPerformed(java.awt.event.ActionEvent e)
-    {
-        GeneralTransferHandler.getCutAction().actionPerformed(
-            new ActionEvent(m_selectionProvider.getDefaultFocusOwner(), 
-                ActionEvent.ACTION_PERFORMED, "cut")); //$NON-NLS-1$
-    }
+ SelectionProvider m_selectionProvider;
 
-    /* (non-Javadoc)
-     * @see jmemorize.gui.swing.SelectionProvider.SelectionObserver
-     */
-    public void selectionChanged(SelectionProvider source)
-    {
-        updateEnablement();
-    }
-    
-    /* (non-Javadoc)
-     * @see jmemorize.gui.swing.actions.AbstractSessionDisabledAction
-     */
-    protected void updateEnablement()
-    {
-        // HACK
-        SelectionProvider src = m_selectionProvider;
-        MainFrame frame = Main.getInstance().getFrame();
-        setEnabled(frame != null && src != null && !Main.getInstance().isSessionRunning() && 
-            ((src.getSelectedCards() != null && src.getSelectedCards().size() > 0) ||
-            (src.getSelectedCategories() != null && src.getSelectedCategories().size() > 0)));
-    }
+ public CutAction(SelectionProvider selectionProvider) {
+  m_selectionProvider = selectionProvider;
+  m_selectionProvider.addSelectionObserver(this);
+  setValues();
+ }
 
-    private void setValues()
-    {
-        setName(Localization.get(LC.CUT));
-        setIcon("/resource/icons/edit_cut.gif"); //$NON-NLS-1$
-        setAccelerator(KeyEvent.VK_X, SHORTCUT_KEY);
-        setMnemonic(2);
-    }
+ /*
+  * (non-Javadoc) @see java.awt.event.ActionListener
+  */
+ public void actionPerformed(java.awt.event.ActionEvent e) {
+  GeneralTransferHandler.getCutAction().actionPerformed(
+   new ActionEvent(m_selectionProvider.getDefaultFocusOwner(),
+    ActionEvent.ACTION_PERFORMED, "cut")); //$NON-NLS-1$
+ }
+
+ /*
+  * (non-Javadoc) @see jmemorize.gui.swing.SelectionProvider.SelectionObserver
+  */
+ public void selectionChanged(SelectionProvider source) {
+  updateEnablement();
+ }
+
+ /*
+  * (non-Javadoc) @see jmemorize.gui.swing.actions.AbstractSessionDisabledAction
+  */
+ protected void updateEnablement() {
+  // HACK
+  SelectionProvider src = m_selectionProvider;
+  MainFrame frame = Main.getInstance().getFrame();
+  setEnabled(frame != null && src != null && !Main.getInstance()
+   .isSessionRunning() && ((src.getSelectedCards() != null && src
+   .getSelectedCards().size() > 0) || (src.getSelectedCategories() != null
+   && src.getSelectedCategories().size() > 0)));
+ }
+
+ private void setValues() {
+  setName(Localization.get(LC.CUT));
+  setIcon("/resource/icons/edit_cut.gif"); //$NON-NLS-1$
+  setAccelerator(KeyEvent.VK_X, SHORTCUT_KEY);
+  setMnemonic(2);
+ }
+
 }

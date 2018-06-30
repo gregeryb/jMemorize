@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2008 Riad Djemili and contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -20,7 +20,6 @@ package jmemorize.gui.swing.actions.file;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
-
 import jmemorize.core.Lesson;
 import jmemorize.core.LessonObserver;
 import jmemorize.core.Main;
@@ -29,80 +28,70 @@ import jmemorize.gui.swing.actions.AbstractSessionDisabledAction;
 
 /**
  * An action that saves the currently opened lesson.
- * 
+ *
  * @author djemili
  */
-public class SaveLessonAction extends AbstractSessionDisabledAction 
-    implements LessonObserver
-{
-    public SaveLessonAction()
-    {
-        setValues();
-        
-        Main.getInstance().addLessonObserver(this);
-        updateEnablement();
-    }
+public class SaveLessonAction extends AbstractSessionDisabledAction
+ implements LessonObserver {
 
-    /* (non-Javadoc)
-     * @see java.awt.event.ActionListener
-     */
-    public void actionPerformed(java.awt.event.ActionEvent e)
-    {
-        Main main = Main.getInstance();
-        
-        File file = main.getLesson().getFile();
-        main.getFrame().saveLesson(main.getLesson(), file);
-    }
-    
-    /* (non-Javadoc)
-     * @see jmemorize.core.LessonObserver
-     */
-    public void lessonLoaded(Lesson newLesson)
-    {
-        updateEnablement();
-    }
+ public SaveLessonAction() {
+  setValues();
+  Main.getInstance().addLessonObserver(this);
+  updateEnablement();
+ }
 
-    /* (non-Javadoc)
-     * @see jmemorize.core.LessonObserver
-     */
-    public void lessonModified(Lesson lesson)
-    {
-        updateEnablement();
-    }
+ /*
+  * (non-Javadoc) @see java.awt.event.ActionListener
+  */
+ public void actionPerformed(java.awt.event.ActionEvent e) {
+  Main main = Main.getInstance();
+  File file = main.getLesson().getFile();
+  main.getFrame().saveLesson(main.getLesson(), file);
+ }
 
-    /* (non-Javadoc)
-     * @see jmemorize.core.LessonObserver
-     */
-    public void lessonSaved(Lesson lesson)
-    {
-        updateEnablement();
-    }
+ /*
+  * (non-Javadoc) @see jmemorize.core.LessonObserver
+  */
+ public void lessonLoaded(Lesson newLesson) {
+  updateEnablement();
+ }
 
-    /* (non-Javadoc)
-     * @see jmemorize.core.LessonObserver
-     */
-    public void lessonClosed(Lesson lesson)
-    {
-        updateEnablement();
-    }
+ /*
+  * (non-Javadoc) @see jmemorize.core.LessonObserver
+  */
+ public void lessonModified(Lesson lesson) {
+  updateEnablement();
+ }
 
-    /* (non-Javadoc)
-     * @see jmemorize.gui.swing.actions.AbstractSessionDisabledAction
-     */
-    protected void updateEnablement()
-    {
-        Main main = Main.getInstance();
-        Lesson lesson = main.getLesson();
-        
-        setEnabled(!main.isSessionRunning() && lesson.canSave());
-    }
+ /*
+  * (non-Javadoc) @see jmemorize.core.LessonObserver
+  */
+ public void lessonSaved(Lesson lesson) {
+  updateEnablement();
+ }
 
-    private void setValues()
-    {
-        setName(Localization.get("MainFrame.SAVE")); //$NON-NLS-1$
-        setDescription(Localization.get("MainFrame.SAVE_DESC")); //$NON-NLS-1$
-        setIcon("/resource/icons/file_save.gif"); //$NON-NLS-1$
-        setAccelerator(KeyEvent.VK_S, SHORTCUT_KEY);
-        setMnemonic(1);
-    }
+ /*
+  * (non-Javadoc) @see jmemorize.core.LessonObserver
+  */
+ public void lessonClosed(Lesson lesson) {
+  updateEnablement();
+ }
+
+ /*
+  * (non-Javadoc) @see jmemorize.gui.swing.actions.AbstractSessionDisabledAction
+  */
+ protected void updateEnablement() {
+  Main main = Main.getInstance();
+  Lesson lesson = main.getLesson();
+  setEnabled(!main.isSessionRunning() && lesson.canSave());
+ }
+
+ private void setValues() {
+  setName(Localization.get("MainFrame.SAVE")); //$NON-NLS-1$
+  setDescription(Localization.get("MainFrame.SAVE_DESC")); //$NON-NLS-1$
+  setIcon("/resource/icons/file_save.gif"); //$NON-NLS-1$
+  setAccelerator(KeyEvent.VK_S, SHORTCUT_KEY);
+  setMnemonic(1);
+ }
+
 }

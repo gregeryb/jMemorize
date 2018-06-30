@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -24,28 +24,26 @@ import jmemorize.gui.swing.dialogs.AboutDialog;
 
 /**
  * An action that shows the about dialog.
- * 
+ *
  * @author djemili
  */
-public class AboutAction extends AbstractAction2
-{
-    public AboutAction()
-    {
-        setValues();
-    }
+public class AboutAction extends AbstractAction2 {
 
-    /* (non-Javadoc)
-     * @see jmemorize.gui.swing.actions.AbstractAction2
-     */
-    public void actionPerformed(java.awt.event.ActionEvent e)
-    {
-        new AboutDialog(Main.getInstance().getFrame());
-    }
+ public AboutAction() {
+  setValues();
+ }
 
-    private void setValues()
-    {
-        setName(Localization.get("MainFrame.ABOUT")); //$NON-NLS-1$
-        setDescription(Localization.get("MainFrame.ABOUT_DESC")); //$NON-NLS-1$
-        setMnemonic(1);
-    }
+ /*
+  * (non-Javadoc) @see jmemorize.gui.swing.actions.AbstractAction2
+  */
+ public void actionPerformed(java.awt.event.ActionEvent e) {
+  new AboutDialog(Main.getInstance().getFrame());
+ }
+
+ private void setValues() {
+  setName(Localization.get("MainFrame.ABOUT")); //$NON-NLS-1$
+  setDescription(Localization.get("MainFrame.ABOUT_DESC")); //$NON-NLS-1$
+  setMnemonic(1);
+ }
+
 }

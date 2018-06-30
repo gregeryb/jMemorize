@@ -1,7 +1,7 @@
 /*
  * jMemorize - Learning made easy (and fun) - A Leitner flashcards tool
  * Copyright(C) 2004-2006 Riad Djemili
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 1, or (at your option)
@@ -20,7 +20,6 @@ package jmemorize.gui.swing.actions.file;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-
 import jmemorize.core.Main;
 import jmemorize.gui.Localization;
 import jmemorize.gui.swing.actions.AbstractSessionDisabledAction;
@@ -29,37 +28,33 @@ import jmemorize.gui.swing.frames.MainFrame;
 /**
  * An action that creates a new lesson. Before dismissing the current lesson,
  * the user is asked for confirmation.
- * 
+ *
  * @see MainFrame#confirmCloseLesson()
- * 
+ *
  * @author djemili
  */
-public class NewLessonAction extends AbstractSessionDisabledAction
-{
-    public NewLessonAction()
-    {
-        setValues();
-    }
+public class NewLessonAction extends AbstractSessionDisabledAction {
 
-    /* (non-Javadoc)
-     * @see java.awt.event.ActionListener
-     */
-    public void actionPerformed(java.awt.event.ActionEvent e)
-    {
-        Main main = Main.getInstance();
-        
-        if (main.getFrame().confirmCloseLesson())
-        {
-            main.createNewLesson();
-        }
-    }
+ public NewLessonAction() {
+  setValues();
+ }
 
-    private void setValues()
-    {
-        setName(Localization.get("MainFrame.NEW")); //$NON-NLS-1$
-        setDescription(Localization.get("MainFrame.NEW_DESC")); //$NON-NLS-1$
-        setIcon("/resource/icons/file_new.gif"); //$NON-NLS-1$
-        setAccelerator(KeyEvent.VK_N, SHORTCUT_KEY+ InputEvent.SHIFT_MASK);
-        setMnemonic(1);
-    }
+ /*
+  * (non-Javadoc) @see java.awt.event.ActionListener
+  */
+ public void actionPerformed(java.awt.event.ActionEvent e) {
+  Main main = Main.getInstance();
+  if (main.getFrame().confirmCloseLesson()) {
+   main.createNewLesson();
+  }
+ }
+
+ private void setValues() {
+  setName(Localization.get("MainFrame.NEW")); //$NON-NLS-1$
+  setDescription(Localization.get("MainFrame.NEW_DESC")); //$NON-NLS-1$
+  setIcon("/resource/icons/file_new.gif"); //$NON-NLS-1$
+  setAccelerator(KeyEvent.VK_N, SHORTCUT_KEY + InputEvent.SHIFT_MASK);
+  setMnemonic(1);
+ }
+
 }
