@@ -18,8 +18,6 @@
  */
 package jmemorize.core;
 
-import java.util.LinkedList;
-import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
@@ -30,9 +28,8 @@ import org.apache.commons.lang.StringEscapeUtils;
  */
 public final class CardSide implements Cloneable {
 
- 
  private String m_text;
- 
+
  public CardSide() {
  }
 
@@ -45,25 +42,13 @@ public final class CardSide implements Cloneable {
  }
 
  public String getRowText() {
-  return String.join(" ",
-   m_text.replaceAll("<br>", "")
-    .replaceAll("<h[0-9].*?>", "")
-    .replaceAll("</h[0-9].*?>", "")
-    .replaceAll("<font.*?>", "")
-    .replaceAll("</font.*?>", "")
-    .replaceAll("<center.*?>", "")
-    .replaceAll("</center.*?>", "")
-    .replaceAll("<p.*?>", "")
-    .replaceAll("</p>", "")
-    .replaceAll("<img.*?>", "")
-    .split("\\s+"))
-   .trim();
+  return getUnformattedText();
  }
 
  public String getUnformattedText() {
   return StringEscapeUtils.unescapeHtml(
    String.join(" ",
-    m_text.replaceAll("<.*?>", "")
+    m_text.replaceAll("<.*?>", " ")
      .split("\\s+"))
     .trim());
  }
@@ -78,9 +63,8 @@ public final class CardSide implements Cloneable {
    return;
   }
   m_text = text;
- 
  }
- 
+
  /**
   * @return the unformatted string representation of the formatted text.
   * @see java.lang.Object#toString()

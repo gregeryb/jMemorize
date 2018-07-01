@@ -49,7 +49,7 @@ import javax.swing.JTextPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
-
+ 
 /**
  * @author djemili
  */
@@ -159,14 +159,14 @@ public class QuizPanel extends JPanel implements Events,
   mainCardPanel.add(m_questionCardPanel, BorderLayout.CENTER);
   mainCardPanel.add(m_barPanel, BorderLayout.SOUTH);
   add(mainCardPanel, BorderLayout.CENTER);
-  HTMLEditorKit kit = new HTMLEditorKit();
   prompt.setContentType("text/html");
+  HTMLEditorKit kit = (HTMLEditorKit)prompt.getEditorKit();
   prompt.setEditable(false);
   kit.getStyleSheet().addRule(
-   "body {" + "	font-size: 24px;" + "text-align: left;" + "	margin-left: 7pc;"
+   ".prompt {" + "	font-size: 24px;" + "text-align: left;" + "	margin-left: 7pc;"
    + "}");
   kit.getStyleSheet().addRule(
-   "table {" + "	margin-left: 15pc;" + "}"
+   ".prompt table {" + "	margin-left: 15pc;" + "}"
   );
   prompt.addHyperlinkListener(this);
  }
@@ -236,7 +236,7 @@ public class QuizPanel extends JPanel implements Events,
   m_isShowQuestion = true;
   m_isShowAnswer = false;
   prompt.setText(
-   ("<body class=\"body\">\n" + " \n" + "  <p>@try</p>\n"
+   ("<body class=\"prompt\">\n" + " \n" + "  <p>@try</p>\n"
     + "  <table border=\"0\">\n" + "    <tr>\n"
     + "      <td><a href=\"show\">@show</a></td>|\n"
     + "      <td><a href=\"skip\">@skip</a></td>\n" + "    </tr>\n"
@@ -258,7 +258,7 @@ public class QuizPanel extends JPanel implements Events,
    m_session.cardChecked((result >= 0.5f), m_showFlipped);
   }
   prompt.setText(
-   ("<body class=\"body\">\n" + " \n" + "  <p>@ask</p>\n"
+   ("<body class=\"prompt\">\n" + " \n" + "  <p>@ask</p>\n"
     + "  <table border=\"0\">\n" + "    <tr>\n"
     + "      <td><a href=\"yes\">@yes</a></td>|\n"
     + "      <td><a href=\"no\">@no</a></td>\n" + "    </tr>\n" + "  </table>\n"

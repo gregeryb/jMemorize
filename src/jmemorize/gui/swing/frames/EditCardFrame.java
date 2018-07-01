@@ -374,7 +374,6 @@ public class EditCardFrame extends EscapableFrame implements CategoryObserver,
   // set sides
   m_cardPanel.setTextSides(frontSide.getText(), backSide.getText());
   updateTitle();
-  highlightSearchText();
   updateActions();
   updateCardHeader();
   Category rootCategory = Main.getInstance().getLesson().getRootCategory();
@@ -525,26 +524,6 @@ public class EditCardFrame extends EscapableFrame implements CategoryObserver,
   getRootPane().setDefaultButton(okayButton);
   return buttonPanel;
  }
-
- private void highlightSearchText() {
-//        if (m_searchText != null)
-//        {
-//            List frontPositions = null;
-//            if (m_searchSide == SearchTool.FRONT_SIDE || m_searchSide == SearchTool.BOTH_SIDES)
-//            {
-//                frontPositions = SearchTool.search(m_currentCard.getFrontSide(),
-//                    m_searchText, m_searchSide, m_searchCase);
-//            }
-//            
-//            List backPositions = null;
-//            if (m_searchSide == SearchTool.FLIP_SIDE|| m_searchSide == SearchTool.BOTH_SIDES)
-//            {
-//                backPositions = SearchTool.search(m_currentCard.getBackSide(),
-//                    m_searchText, m_searchSide, m_searchCase);
-//            }
-//            
-//            m_cardPanel.highlight(frontPositions, backPositions, m_searchText.length());
-//        }
- }
+ 
 
 }

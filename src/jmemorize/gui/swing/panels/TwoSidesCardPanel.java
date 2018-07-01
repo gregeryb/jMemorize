@@ -19,8 +19,6 @@
 package jmemorize.gui.swing.panels;
 
 import java.awt.Font;
-import java.util.List;
-import javax.swing.ImageIcon;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import jmemorize.core.Settings;
@@ -35,7 +33,7 @@ import jmemorize.gui.swing.CardFont.FontType;
  *
  * @author djemili
  */
-public class TwoSidesCardPanel extends CardPanel implements CardFontObserver {
+public class TwoSidesCardPanel extends CardPanel implements CardFontObserver  {
 
  private CardSidePanel m_frontSide = new CardSidePanel();
  private CardSidePanel m_backSide = new CardSidePanel();
@@ -52,9 +50,26 @@ public class TwoSidesCardPanel extends CardPanel implements CardFontObserver {
   }
   Settings.addCardFontObserver(this);
   Settings.setCardFont(this, FontType.CARD_FRONT, FontType.CARD_FLIP);
-  // TODO remove second param and implement setsecondcardside innstead
-//        addCardSide("Notes", new TextCardSidePanel());
- }
+  DocumentListener docListener = new DocumentListener() {
+   @Override
+   public void changedUpdate(DocumentEvent e) {
+    notifyTextObservers();
+   }
+
+   @Override
+   public void insertUpdate(DocumentEvent e) {
+    notifyTextObservers();
+   }
+
+   @Override
+   public void removeUpdate(DocumentEvent e) {
+    notifyTextObservers();
+   }
+
+  };
+  m_frontSide.addDocumentListener(docListener);
+  m_backSide.addDocumentListener(docListener);
+  }
 
  public void setSecondCardSide(CardSidePanel cardSidePanel) {
   // remove old second card side
@@ -66,22 +81,11 @@ public class TwoSidesCardPanel extends CardPanel implements CardFontObserver {
   * Sets front- and backside and focuses text area for frontside.
   */
  public void setTextSides(String frontside, String backside) {
-  DocumentListener docListener = new DocumentListener() {
-   public void changedUpdate(DocumentEvent e) {
-    notifyTextObservers();
-   }
-
-   public void insertUpdate(DocumentEvent e) {
-    notifyTextObservers();
-   }
-
-   public void removeUpdate(DocumentEvent e) {
-    notifyTextObservers();
-   }
-
-  };
-  m_frontSide.setText(frontside).addDocumentListener(docListener);
-  m_backSide.setText(backside).addDocumentListener(docListener);
+  
+  m_frontSide.setText(frontside);
+  m_backSide.setText(backside);
+  m_frontSide.home();
+  m_backSide.home();
   m_frontSide.requestFocus();
  }
 
@@ -118,7 +122,7 @@ public class TwoSidesCardPanel extends CardPanel implements CardFontObserver {
   */
  public void reset() {
   setTextSides("", "");
-  m_frontSide.getTextPane().requestFocus();
+  //m_frontSide.getTextPane().requestFocus();
  }
 
  /**
@@ -162,5 +166,5 @@ public class TwoSidesCardPanel extends CardPanel implements CardFontObserver {
    m_backSide.setCardFont(font);
   }
  }
-
+ 
 }

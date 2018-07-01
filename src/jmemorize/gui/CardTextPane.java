@@ -5,45 +5,43 @@
  */
 package jmemorize.gui;
 
+import com.hexidec.ekit.EkitCore;
+import java.awt.event.FocusEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JTextPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.Element;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLDocument;
 
 /**
  *
  * @author Gregery Barton
  */
-public class CardTextPane extends JTextPane {
+public class CardTextPane extends EkitCore {
 
+ private static final String TOOLBAR="CT|CP|PS|SP|UN|RE|SP|FN|SP|UC|UM|SP|SR|*|BL|IT|UD|SP|SK|SU|SB|SP|AL|AC|AR|AJ|SP|UL|OL|SP|LK|*|ST|SP|FO";
  public CardTextPane() {
- }
+  super(false, "", null, true, false, true, true, null, null, false, true,
+   TOOLBAR, true);
+  }
 
- public CardTextPane(StyledDocument doc) {
-  super(doc);
- }
-
- @Override
  public void setText(String t) {
-  super.setText(t);
+  setDocumentText(t);
   /*
    * change absolute image paths to relative, filename only.
    */
-  URL base = ((HTMLDocument) getDocument()).getBase();
+  URL base = getHTMLDoc().getBase();
   if (base != null) {
-   Element[] elements = getDocument().getRootElements();
+   Element[] elements = getHTMLDoc().getRootElements();
    List<String> paths = get_image_paths(elements);
-   String text = getText();
+   String text = getDocumentText();
    for (String src_path : paths) {
     try {
      URL url = new URL(src_path);
@@ -55,7 +53,7 @@ public class CardTextPane extends JTextPane {
     }
    }
    if (!paths.isEmpty()) {
-    super.setText(text);
+    setDocumentText(text);
    }
   }
  }
@@ -88,6 +86,20 @@ public class CardTextPane extends JTextPane {
    Element s = e.getElement(i);
    get_image_paths(s, paths);
   }
+ }
+
+ @Override
+ public void focusLost(FocusEvent fe) {
+  super.focusLost(fe);
+  if (fe.getOppositeComponent() instanceof JTextComponent) {
+   disableInterface();
+  }
+ }
+
+ @Override
+ public void focusGained(FocusEvent fe) {
+  enableInterface();
+  super.focusGained(fe);
  }
 
 }

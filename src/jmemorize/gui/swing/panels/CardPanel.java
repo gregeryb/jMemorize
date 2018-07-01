@@ -20,11 +20,8 @@ package jmemorize.gui.swing.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -32,13 +29,10 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.AbstractButton;
-import javax.swing.Action;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextPane;
@@ -50,28 +44,16 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.AttributeSet;
-import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.StyledEditorKit.StyledTextAction;
-import jmemorize.gui.LC;
-import jmemorize.gui.Localization;
 import jmemorize.gui.swing.ColorConstants;
 import jmemorize.gui.swing.widgets.CategoryComboBox;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.Sizes;
-import java.io.File;
-import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import jmemorize.core.Settings;
-import jmemorize.gui.swing.GeneralTransferHandler;
-import jmemorize.gui.swing.actions.file.AbstractImportAction;
 
 /**
  * A panel that displays the front and flip side of a card.
@@ -91,169 +73,7 @@ public class CardPanel extends JPanel {
 
  }
 
- private abstract class AbstractStyledTextAction extends StyledTextAction {
-
-  private AbstractButton m_button;
-  private List<KeyStroke> m_shortcuts = new ArrayList<KeyStroke>();
-  private CaretListener m_caretListener;
-
-  public AbstractStyledTextAction(String nm) {
-   super(nm);
-   m_textActions.add(this);
-   m_caretListener = new CaretListener() {
-    public void caretUpdate(CaretEvent e) {
-     if (!(e.getSource() instanceof JTextPane)) {
-      return;
-     }
-     JTextPane editor = (JTextPane) e.getSource();
-     updateButton(editor);
-    }
-
-   };
-  }
-
-  public void addShortcut(KeyStroke shortcut) {
-   m_shortcuts.add(shortcut);
-  }
-
-  public void actionPerformed(ActionEvent e) {
-   JEditorPane editor = getEditor(e);
-   if (editor != null) {
-    editor.requestFocus();
-    StyledEditorKit kit = getStyledEditorKit(editor);
-    MutableAttributeSet attr = kit.getInputAttributes();
-    SimpleAttributeSet sas = new SimpleAttributeSet();
-    setStyle(sas, !hasStyle(attr));
-    setCharacterAttributes(editor, sas, false);
-    notifyTextObservers();
-    updateButton(editor);
-   }
-  }
-
-  public void setButton(AbstractButton button) {
-   m_button = button;
-  }
-
-  public void attachTextPane(CardSidePanel cardSide) {
-   String name = (String) getValue(Action.NAME);
-   JEditorPane textPane = cardSide.getTextPane();
-   for (KeyStroke shortcut : m_shortcuts) {
-    textPane.getInputMap().put(shortcut, name);
-   }
-   textPane.getActionMap().put(name, this);
-   cardSide.addCaretListener(m_caretListener);
-  }
-
-  /**
-   * @return <code>true</code> if the style associated with this text action is
-   * enabled. <code>false</code> otherwise.
-   */
-  public abstract boolean hasStyle(AttributeSet attr);
-
-  /**
-   * Enables/disables the style associated with this text action in the given
-   * attributes.
-   */
-  public abstract void setStyle(MutableAttributeSet attr, boolean enabled);
-
-  private void updateButton(JEditorPane editor) {
-   StyledEditorKit kit = (StyledEditorKit) editor.getEditorKit();
-   MutableAttributeSet attr = kit.getInputAttributes();
-   m_button.setSelected(hasStyle(attr));
-  }
-
- }
-
- private class BoldAction extends AbstractStyledTextAction {
-
-  public BoldAction() {
-   super("font-bold");
-   addShortcut(KeyStroke.getKeyStroke(KeyEvent.VK_B, CTRL_MASK));
-  }
-
-  public boolean hasStyle(AttributeSet attr) {
-   return StyleConstants.isBold(attr);
-  }
-
-  public void setStyle(MutableAttributeSet attr, boolean enabled) {
-   StyleConstants.setBold(attr, enabled);
-  }
-
- }
-
- private class ItalicAction extends AbstractStyledTextAction {
-
-  public ItalicAction() {
-   super("font-italic");
-   addShortcut(KeyStroke.getKeyStroke(KeyEvent.VK_I, CTRL_MASK));
-  }
-
-  public boolean hasStyle(AttributeSet attr) {
-   return StyleConstants.isItalic(attr);
-  }
-
-  public void setStyle(MutableAttributeSet attr, boolean enabled) {
-   StyleConstants.setItalic(attr, enabled);
-  }
-
- }
-
- private class UnderlineAction extends AbstractStyledTextAction {
-
-  public UnderlineAction() {
-   super("font-underline");
-   addShortcut(KeyStroke.getKeyStroke(KeyEvent.VK_U, CTRL_MASK));
-  }
-
-  public boolean hasStyle(AttributeSet attr) {
-   return StyleConstants.isUnderline(attr);
-  }
-
-  public void setStyle(MutableAttributeSet attr, boolean enabled) {
-   StyleConstants.setUnderline(attr, enabled);
-  }
-
- }
-
- private class SupAction extends AbstractStyledTextAction {
-
-  public SupAction() {
-   super("sup");
-   addShortcut(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS,
-    CTRL_MASK | InputEvent.SHIFT_DOWN_MASK));
-   addShortcut(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS,
-    CTRL_MASK | InputEvent.SHIFT_DOWN_MASK));
-  }
-
-  public boolean hasStyle(AttributeSet attr) {
-   return StyleConstants.isSuperscript(attr);
-  }
-
-  public void setStyle(MutableAttributeSet attr, boolean enabled) {
-   StyleConstants.setSuperscript(attr, enabled);
-   StyleConstants.setSubscript(attr, false);
-  }
-
- }
-
- private class SubAction extends AbstractStyledTextAction {
-
-  public SubAction() {
-   super("sub");
-   addShortcut(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, CTRL_MASK));
-  }
-
-  public boolean hasStyle(AttributeSet attr) {
-   return StyleConstants.isSubscript(attr);
-  }
-
-  public void setStyle(MutableAttributeSet attr, boolean enabled) {
-   StyleConstants.setSubscript(attr, enabled);
-   StyleConstants.setSuperscript(attr, false);
-  }
-
- }
-
+ 
  private class ShowCardSideButton extends JButton implements ActionListener {
 
   private String m_text;
@@ -293,47 +113,30 @@ public class CardPanel extends JPanel {
   }
 
  }
- private static final int CTRL_MASK = Toolkit.getDefaultToolkit()
-  .getMenuShortcutKeyMask();
  protected boolean m_flippedCardSides = false;
  private boolean m_verticalLayout = true;
  private CategoryComboBox m_categoryBox = new CategoryComboBox();
  private List<CardPanelObserver> m_observers = new LinkedList<>();
  private List<CardSidePanel> m_cardSides = new LinkedList<>();
- private List<AbstractStyledTextAction> m_textActions = new LinkedList<>();
  private List<ShowCardSideButton> m_showSideButtons = new LinkedList<>();
  private JPanel m_cardSidesPanel;
- private JPopupMenu m_popupMenu;
- private MouseAdapter m_menuAdapter;
+ private boolean editable;
 
  /**
   * Creates new form EditCardPanel
   */
  public CardPanel(boolean allowEdits) {
-  initComponent(allowEdits);
+  editable = allowEdits;
+  initComponent();
   updateCardSideButtons();
-  m_popupMenu = buildPopupMenu(allowEdits);
-  m_menuAdapter = new MouseAdapter() {
-   public void mouseClicked(MouseEvent e) {
-    if (SwingUtilities.isRightMouseButton(e)) {
-     JTextPane textPane = (JTextPane) e.getSource();
-     textPane.requestFocus();
-     m_popupMenu.show(e.getComponent(), e.getX(), e.getY());
-    }
-   }
-
-  };
  }
 
- public void addCardSide(String title, JComponent component) {
+ public final void addCardSide(String title, JComponent component) {
   JPanel cardSideWithTitle = wrapCardSide(title, component);
   if (component instanceof CardSidePanel) {
    CardSidePanel cardSide = (CardSidePanel) component;
    m_cardSides.add(cardSide);
-   for (AbstractStyledTextAction textAction : m_textActions) {
-    textAction.attachTextPane(cardSide);
-   }
-   cardSide.getTextPane().addMouseListener(m_menuAdapter);
+   cardSide.setEditable(editable);
   }
   m_cardSidesPanel.add(cardSideWithTitle);
   updateCardSideButtons();
@@ -373,6 +176,7 @@ public class CardPanel extends JPanel {
   * editable. <code>false</code> otherwise.
   */
  public void setEditable(boolean editable) {
+  this.editable = editable;
   for (CardSidePanel cardSide : m_cardSides) {
    cardSide.setEditable(editable);
   }
@@ -437,11 +241,6 @@ public class CardPanel extends JPanel {
     addBorder = true;
    }
   }
-//        if (m_cardSides.size() > 0)
-//        {
-//            int px = Sizes.dialogUnitYAsPixel(3, this); 
-//            cardSideWithTitle.setBorder(new EmptyBorder(px, 0, 0, 0));
-//        }
  }
 
  private JPanel wrapCardSide(String title, JComponent cardSide) {
@@ -457,17 +256,11 @@ public class CardPanel extends JPanel {
   return builder.getPanel();
  }
 
- private void initComponent(boolean allowEdits) {
+ private void initComponent() {
   setLayout(new BorderLayout());
   JPanel topPanel = new JPanel();
   topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-  if (allowEdits) {
-   topPanel.add(buildCategoryPanel());
-  }
   topPanel.add(buildInnerPanel(buildSetSidesToolbar()));
-  if (allowEdits) {
-   topPanel.add(buildInnerPanel(buildEditToolbar()));
-  }
   add(topPanel, BorderLayout.NORTH);
   m_cardSidesPanel = new JPanel();
   m_cardSidesPanel.setLayout(new BoxLayout(m_cardSidesPanel, BoxLayout.Y_AXIS));
@@ -483,60 +276,6 @@ public class CardPanel extends JPanel {
   toolBar.setBackground(ColorConstants.CARD_SIDE_BAR_COLOR);
   toolBar.setFloatable(false);
   return toolBar;
- }
-
- private JToolBar buildEditToolbar() {
-  JToolBar toolBar = new JToolBar();
-  toolBar.add(createButton(new DefaultEditorKit.CopyAction(), "edit_copy.gif"));
-  toolBar.add(createButton(new DefaultEditorKit.CutAction(), "edit_cut.gif"));
-  toolBar
-   .add(createButton(new DefaultEditorKit.PasteAction(), "edit_paste.gif"));
-  toolBar.addSeparator();
-  toolBar.add(createButton(new BoldAction(), "text_bold.png"));
-  toolBar.add(createButton(new ItalicAction(), "text_italic.png"));
-  toolBar.add(createButton(new UnderlineAction(), "text_underline.png"));
-  toolBar.setFloatable(false);
-  toolBar.addSeparator();
-  toolBar.add(createButton(new InsertImageAction(), "picture_add.png"));
-  return toolBar;
- }
-
- private JPopupMenu buildPopupMenu(boolean editable) {
-  JPopupMenu menu = new JPopupMenu();
-  menu.add(createMenuItem(new DefaultEditorKit.CopyAction(),
-   Localization.get(LC.COPY), "edit_copy.gif"));
-  if (editable) {
-   menu.add(createMenuItem(new DefaultEditorKit.CutAction(),
-    Localization.get(LC.CUT), "edit_cut.gif"));
-   menu.add(createMenuItem(new DefaultEditorKit.PasteAction(),
-    Localization.get(LC.PASTE), "edit_paste.gif"));
-   menu.addSeparator();
-   // TODO add localization
-   menu.add(createMenuItem(new BoldAction(), "Bold", "text_bold.png"));
-   menu.add(createMenuItem(new ItalicAction(), "Italic", "text_italic.png"));
-   menu.add(createMenuItem(new UnderlineAction(), "Underline",
-    "text_underline.png"));
-  }
-  return menu;
- }
-
- private JButton createButton(AbstractStyledTextAction action, String icon) {
-  JButton button = new JButton(action);
-  action.setButton(button);
-  button.setText("");
-  button.setIcon(
-   new ImageIcon(getClass().getResource("/resource/icons/" + icon)));
-  return button;
- }
-
- private JMenuItem createMenuItem(Action action, String text, String icon) {
-  JMenuItem item = new JMenuItem(action);
-  if (action instanceof AbstractStyledTextAction) {
-   ((AbstractStyledTextAction) action).setButton(item);
-  }
-  item.setIcon(new ImageIcon(getClass().getResource("/resource/icons/" + icon)));
-  item.setText(text);
-  return item;
  }
 
  private JPanel buildCategoryPanel() {
@@ -566,40 +305,4 @@ public class CardPanel extends JPanel {
   return builder.getPanel();
  }
 
- private JButton createButton(Action action, String icon) {
-  JButton button = new JButton(action);
-  button.setText("");
-  button.setIcon(
-   new ImageIcon(getClass().getResource("/resource/icons/" + icon)));
-  return button;
- }
-
- private class InsertImageAction extends StyledTextAction {
-
-  public InsertImageAction() {
-   super("img");
-  }
-
-  public void actionPerformed(java.awt.event.ActionEvent e) {
-   JEditorPane editor = getEditor(e);
-   if (editor != null && editor instanceof JTextPane) {
-    for (CardSidePanel cardSidePanel : m_cardSides) {
-     if (cardSidePanel.getTextPane() != editor) {
-      continue;
-     }
-     JFileChooser chooser = new JFileChooser();
-     chooser.setCurrentDirectory(Settings.loadLastDirectory());
-     FileFilter imageFilter = new FileNameExtensionFilter(
-      "Image files", ImageIO.getReaderFileSuffixes());
-     File file = AbstractImportAction.showOpenDialog(null, imageFilter);
-     if (file == null) {
-      return;
-     }
-     cardSidePanel.addImage(file);
-     editor.requestFocus();
-    }
-   }
-  }
-
- }
 }

@@ -68,8 +68,8 @@ public class CsvBuilder {
    writeHeader(writer);
    List<Card> cards = lesson.getRootCategory().getCards();
    for (Card card : cards) {
-    writer.write(card.getFrontSide().getText().replace("\n", ""));
-    writer.write(card.getBackSide().getText().replace("\n", ""));
+    writer.write(card.getFrontSide().getText().replace("\n", " "));
+    writer.write(card.getBackSide().getText().replace("\n", " "));
     if (lesson.getRootCategory() == card.getCategory()) {
      writer.write("");
     } else {
