@@ -1,4 +1,4 @@
-
+![screenshot](https://github.com/gregeryb/jMemorize/blob/master/screenshot1.png)
  jMemorize README
  ----------------
  
