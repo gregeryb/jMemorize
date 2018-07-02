@@ -59,9 +59,6 @@ public final class CardSide implements Cloneable {
   * the user.
   */
  public void setText(String text) {
-  if (text.equals(m_text)) {
-   return;
-  }
   m_text = text;
  }
 

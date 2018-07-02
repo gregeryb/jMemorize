@@ -46,7 +46,7 @@ import jmemorize.gui.swing.ColorConstants;
 /**
  * @author djemili
  */
-public class CardSidePanel extends JPanel  {
+public class CardSidePanel extends JPanel {
 
  private JRootPane root = new JRootPane();
  private CardTextPane pane = new CardTextPane();
@@ -75,7 +75,7 @@ public class CardSidePanel extends JPanel  {
  public void requestFocus() {
   pane.requestFocus();
  }
- 
+
  public void setCardFont(CardFont cardFont) {
   m_cardFont = cardFont;
   StyleSheet sheet = pane.getHTMLEditorKit().getStyleSheet();
@@ -105,9 +105,11 @@ public class CardSidePanel extends JPanel  {
   pane.scrollRectToVisible(new Rectangle());
   return pane.getHTMLDoc();
  }
-public void addDocumentListener( DocumentListener docListener){
- pane.getHTMLDoc().addDocumentListener(docListener);
-}
+
+ public void addDocumentListener(DocumentListener docListener) {
+  pane.getHTMLDoc().addDocumentListener(docListener);
+ }
+
  public void showToolbars() {
  }
 
@@ -157,7 +159,6 @@ public void addDocumentListener( DocumentListener docListener){
  }
 
  private void initComponents() {
-
   pane.setBackground(ColorConstants.CARD_PANEL_COLOR);
   JPanel mainPanel = new JPanel(new BorderLayout());
   mainPanel.add(root, BorderLayout.CENTER);

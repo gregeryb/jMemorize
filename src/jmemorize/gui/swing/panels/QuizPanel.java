@@ -49,7 +49,7 @@ import javax.swing.JTextPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
- 
+
 /**
  * @author djemili
  */
@@ -160,10 +160,11 @@ public class QuizPanel extends JPanel implements Events,
   mainCardPanel.add(m_barPanel, BorderLayout.SOUTH);
   add(mainCardPanel, BorderLayout.CENTER);
   prompt.setContentType("text/html");
-  HTMLEditorKit kit = (HTMLEditorKit)prompt.getEditorKit();
+  HTMLEditorKit kit = (HTMLEditorKit) prompt.getEditorKit();
   prompt.setEditable(false);
   kit.getStyleSheet().addRule(
-   ".prompt {" + "	font-size: 24px;" + "text-align: left;" + "	margin-left: 7pc;"
+   ".prompt {" + "	font-size: 24px;" + "text-align: left;"
+   + "	margin-left: 7pc;"
    + "}");
   kit.getStyleSheet().addRule(
    ".prompt table {" + "	margin-left: 15pc;" + "}"

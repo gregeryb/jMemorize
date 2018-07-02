@@ -70,7 +70,7 @@ public class ExtendedHTMLEditorKit extends HTMLEditorKit {
  public StyleSheet getStyleSheet() {
   if (styles == null) {
    StyleSheet def = super.getStyleSheet();
-   styles=new StyleSheet();
+   styles = new StyleSheet();
    styles.addStyleSheet(def);
   }
   return styles;
@@ -96,7 +96,6 @@ public class ExtendedHTMLEditorKit extends HTMLEditorKit {
    */
   public HTMLFactoryExtended() {
   }
- 
 
  }
 }

@@ -524,6 +524,5 @@ public class EditCardFrame extends EscapableFrame implements CategoryObserver,
   getRootPane().setDefaultButton(okayButton);
   return buttonPanel;
  }
- 
 
 }

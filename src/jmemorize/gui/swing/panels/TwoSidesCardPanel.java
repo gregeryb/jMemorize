@@ -33,7 +33,7 @@ import jmemorize.gui.swing.CardFont.FontType;
  *
  * @author djemili
  */
-public class TwoSidesCardPanel extends CardPanel implements CardFontObserver  {
+public class TwoSidesCardPanel extends CardPanel implements CardFontObserver {
 
  private CardSidePanel m_frontSide = new CardSidePanel();
  private CardSidePanel m_backSide = new CardSidePanel();
@@ -69,7 +69,7 @@ public class TwoSidesCardPanel extends CardPanel implements CardFontObserver  {
   };
   m_frontSide.addDocumentListener(docListener);
   m_backSide.addDocumentListener(docListener);
-  }
+ }
 
  public void setSecondCardSide(CardSidePanel cardSidePanel) {
   // remove old second card side
@@ -81,7 +81,6 @@ public class TwoSidesCardPanel extends CardPanel implements CardFontObserver  {
   * Sets front- and backside and focuses text area for frontside.
   */
  public void setTextSides(String frontside, String backside) {
-  
   m_frontSide.setText(frontside);
   m_backSide.setText(backside);
   m_frontSide.home();
@@ -166,5 +165,5 @@ public class TwoSidesCardPanel extends CardPanel implements CardFontObserver  {
    m_backSide.setCardFont(font);
   }
  }
- 
+
 }

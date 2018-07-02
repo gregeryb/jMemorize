@@ -26,11 +26,12 @@ import javax.swing.text.html.HTML;
  */
 public class CardTextPane extends EkitCore {
 
- private static final String TOOLBAR="CT|CP|PS|SP|UN|RE|SP|FN|SP|UC|UM|SP|SR|*|BL|IT|UD|SP|SK|SU|SB|SP|AL|AC|AR|AJ|SP|UL|OL|SP|LK|*|ST|SP|FO";
+ private static final String TOOLBAR = "CT|CP|PS|SP|UN|RE|SP|FN|SP|UC|UM|SP|SR|*|BL|IT|UD|SP|SK|SU|SB|SP|AL|AC|AR|AJ|SP|UL|OL|SP|LK|*|ST|SP|FO";
+
  public CardTextPane() {
   super(false, "", null, true, false, true, true, null, null, false, true,
    TOOLBAR, true);
-  }
+ }
 
  public void setText(String t) {
   setDocumentText(t);

@@ -73,7 +73,6 @@ public class CardPanel extends JPanel {
 
  }
 
- 
  private class ShowCardSideButton extends JButton implements ActionListener {
 
   private String m_text;
@@ -260,6 +259,9 @@ public class CardPanel extends JPanel {
   setLayout(new BorderLayout());
   JPanel topPanel = new JPanel();
   topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+  if (editable) {
+   topPanel.add(buildCategoryPanel());
+  }
   topPanel.add(buildInnerPanel(buildSetSidesToolbar()));
   add(topPanel, BorderLayout.NORTH);
   m_cardSidesPanel = new JPanel();

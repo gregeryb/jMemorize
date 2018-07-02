@@ -3700,10 +3700,10 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener,
   purgeUndos();
  }
 
- public void home()
- {
+ public void home() {
   jtpMain.setCaretPosition(0);
  }
+
  /**
   * Convenience method for setting the source document
   */
