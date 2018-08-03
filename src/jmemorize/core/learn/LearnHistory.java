@@ -62,7 +62,8 @@ public class LearnHistory {
   private SessionSummary(Date start, Date end, float passed, float failed,
    float skipped, float relearned) {
    this(start, end,
-    (int) ((end.getTime() - start.getTime()) / (1000 * 60)),
+     (end != null && start != null) ? (int)((end.getTime() - start.getTime())
+     / (1000 * 60)) : 0,
     passed, failed, skipped, relearned);
   }
 
@@ -72,8 +73,8 @@ public class LearnHistory {
 
   private SessionSummary(Date start, Date end, int duration,
    float passed, float failed, float skipped, float relearned) {
-   m_start = start;
-   m_end = end;
+   m_start = start != null ? start : new Date();
+   m_end = end!=null? end : new Date();
    m_duration = duration;
    m_passed = passed;
    m_failed = failed;
